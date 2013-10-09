@@ -17,7 +17,12 @@ public abstract class PetState : MonoBehaviour
 	}
 	*/
 	
-	public abstract string GetName();
+	public virtual void Init()	//Optional initialization stuff for the state
+	{
+		
+	}
+	
+	public abstract string GetName();	//Returns the name of the state
 	
 	public void SetMyPet(IPet _myPet)
 	{

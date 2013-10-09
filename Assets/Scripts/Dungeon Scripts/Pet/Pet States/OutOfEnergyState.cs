@@ -6,6 +6,8 @@ public class OutOfEnergyState : PetState
 {
 	private const string stateName = "Out of Energy";
 	
+	
+	
 	private string previousState;
 	
 	Dictionary<string,string> stateTransitions = new Dictionary<string, string>()

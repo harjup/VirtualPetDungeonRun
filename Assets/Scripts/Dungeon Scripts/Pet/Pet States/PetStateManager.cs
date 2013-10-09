@@ -28,6 +28,10 @@ public class PetStateManager : MonoBehaviour
 	string activeStateName;
 	List<PetState> states = new List<PetState>();
 	
+	PetState currentState = null;	//The current state that is being run
+	PetState previousState = null; 	//The state that was run last frame
+	
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -71,10 +75,7 @@ public class PetStateManager : MonoBehaviour
 		activeStateName = PetRunFSM.ActiveStateName;
 		
 		updateStateHistory(activeStateName);
-		
-		
-		PetState currentState = null;
-		
+	
 		foreach (PetState s in states)
 		{			
 			if (s.GetName() == activeStateName)
@@ -82,6 +83,15 @@ public class PetStateManager : MonoBehaviour
 				currentState = s;
 			}
 		}
+		
+		//If the state has changed since last frame, run that state's init function
+		if (previousState != currentState)
+		{
+			//Debug.Log("Initializing " + currentState.GetName() + " State");
+			currentState.Init();
+			previousState = currentState;
+		}
+		
 		
 		if (currentState != null)
 		{	
