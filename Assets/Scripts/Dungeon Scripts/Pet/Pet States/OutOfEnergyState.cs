@@ -16,7 +16,7 @@ public class OutOfEnergyState : PetState
 		
 	};
 	
-	
+	private const string transitionToLeaveDungeon = "Leave";
 	
 	
 	//Returns the name of the current state script
@@ -28,11 +28,21 @@ public class OutOfEnergyState : PetState
 	//When state is active, called every frame
 	public override void Run()
 	{
-		//Let's just abritrarily add some energy back
-		myPet.AddEnergy(1);
+		//If the user consumes an energy item, continue on
+		if (Input.GetKey(KeyCode.Z))
+		{
+			//Let's just abritrarily add some energy back
+			myPet.AddEnergy(1);
+			
+			//Transition back to the state that was previously running
+			PlayMakerFSM.BroadcastEvent(stateTransitions[previousState]);
+		}
 		
-		//Transition back to the state that was previously running
-		PlayMakerFSM.BroadcastEvent(stateTransitions[previousState]);
+		//If the user has no remaining energy items, leave the dungon
+		if (Input.GetKey(KeyCode.X))
+		{
+			PlayMakerFSM.BroadcastEvent(transitionToLeaveDungeon);
+		}
 	}
 	
 	public void SetPreviousState(string state)
