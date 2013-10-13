@@ -11,19 +11,25 @@ public class PetBelly : MonoBehaviour
 	
 	//If there is room, eat the given fruit
 	//Returns whether the fruit was eaten
-	public bool eatFruit(Fruit f)
+	public bool EatFruit(Fruit f)
 	{
-		if ((getBellyFullness() + f.getBellyVal()) > bellyCapacity)
+		if ((GetBellyFullness() + f.getBellyVal()) > bellyCapacity)
 		{
 			return false;
 		}
 		
 		fruitList.Add(f);
-		Debug.Log("Ate the fruit, now " + getBellyFullness() + " out of " + bellyCapacity + " full");
+		//Debug.Log("Ate the fruit, now " + GetBellyFullness() + " out of " + bellyCapacity + " full");
+		
 		return true;
 	}
 	
-	int getBellyFullness()
+	public int GetBellyCapacity()
+	{
+		return bellyCapacity;	
+	}
+	
+	public int GetBellyFullness()
 	{
 		int fullness = 0;
 		
@@ -35,13 +41,13 @@ public class PetBelly : MonoBehaviour
 		return fullness;
 	}
 	
-	public Fruit getLastFruitEaten()
+	public Fruit GetLastFruitEaten()
 	{
 		return fruitList[fruitList.Count - 1];
 	}
 
 	
-	public float getMaxEnergy()
+	public float GetMaxEnergy()
 	{
 		float maxEnergy = 0f;
 		
@@ -55,7 +61,7 @@ public class PetBelly : MonoBehaviour
 	
 	//Remove the specified fruit, called once the fruit is used up.
 	//Returns whether there's any more fruit to use
-	public bool removeFruit(Fruit f)
+	public bool RemoveFruit(Fruit f)
 	{
 		fruitList.Remove(f);
 		

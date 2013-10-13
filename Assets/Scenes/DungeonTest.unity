@@ -298,6 +298,7 @@ GameObject:
   - 114: {fileID: 232322817}
   - 114: {fileID: 232322818}
   - 114: {fileID: 232322819}
+  - 114: {fileID: 232322820}
   m_Layer: 0
   m_Name: PetStates
   m_TagString: Untagged
@@ -384,6 +385,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca2d36c37f60ba749b56f7a9c3a7b9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &232322820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 232322812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c96d7554b3233e479b73c37382409f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &240555520

@@ -1,16 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GardenGUI : MonoBehaviour 
 {
 	enum dimension {x, y};
 	
 	PetBelly petBelly;
+	Inventory petInventory;
+	
+	
+	public GameObject petGardenPrefab;
+	
+	string message = "";
 	
 	// Use this for initialization
 	void Start () 
 	{
-		petBelly = GameObject.Find("PetGarden").GetComponent<PetBelly>();
+		if (!GameObject.Find("PetGarden"))
+		{
+			Instantiate(petGardenPrefab).name = "PetGarden";
+		}
+		
+		
+		petBelly = 		GameObject.Find("PetGarden").GetComponent<PetBelly>();
+		petInventory = 	GameObject.Find("PetGarden").GetComponent<Inventory>();
 	}
 	
 	// Update is called once per frame
@@ -21,9 +35,11 @@ public class GardenGUI : MonoBehaviour
 	
 	void OnGUI()
 	{
+		DrawInventory();
+		
 		Rect feedPetPos = new Rect(
 			NormalizeToScreen(dimension.x,.9f),
-			NormalizeToScreen(dimension.y,.8f),
+			NormalizeToScreen(dimension.y,.0125f),
 			NormalizeToScreen(dimension.x,.09f),
 			NormalizeToScreen(dimension.y,.09f)
 			);
@@ -35,20 +51,45 @@ public class GardenGUI : MonoBehaviour
 			NormalizeToScreen(dimension.y,.09f)
 			);
 		
+		Rect gotoGatheringPos = new Rect(
+			NormalizeToScreen(dimension.x,.9f),
+			NormalizeToScreen(dimension.y,.8f),
+			NormalizeToScreen(dimension.x,.09f),
+			NormalizeToScreen(dimension.y,.09f)
+			);
+		
+		Rect userMessagePos = new Rect(
+			NormalizeToScreen(dimension.x,.05f),
+			NormalizeToScreen(dimension.y,.8f),
+			NormalizeToScreen(dimension.x,.8f),
+			NormalizeToScreen(dimension.y,.15f)
+			);
+	
+		
+		GUI.Label(userMessagePos, message);
+		
 		
 		if (GUI.Button(feedPetPos, "Feed Pet"))
 		{
 			//Tell the pet to try eating a power fruit
-			Fruit myFruit = new Fruit(Stat.type.power, 15, 2, 20);
+			Fruit myFruit = new Fruit(Stat.type.power, 30, 2, 20);
 			
-			if (petBelly.eatFruit(myFruit))
+			if (petBelly.EatFruit(myFruit))
 			{
 				//Debug.Log("Ate the fruit");
+				message = "Ate the fruit, now " + petBelly.GetBellyFullness() + " out of " + petBelly.GetBellyCapacity() + " full";
 			}
 			else
 			{
-				Debug.Log("Pet is tooo full");	
+				//Debug.Log("Pet is too full");	
+				message = "Pet is too full";
 			}
+		}
+		
+		if (GUI.Button(gotoGatheringPos, "Gather Fruits"))
+		{
+			//Load gathering scene
+			Application.LoadLevel("GatherTest");
 		}
 		
 		if(GUI.Button(gotoDungeonPos, "Go to Dungeon"))
@@ -59,6 +100,35 @@ public class GardenGUI : MonoBehaviour
 		}
 		
 	}
+	
+	void DrawInventory()
+	{
+		List<Fruit> fruits = petInventory.GetFruits();
+		
+		for (int i = 0; i < fruits.Count; i++) 
+		{
+				Rect fruitPos = new Rect(
+			NormalizeToScreen(dimension.x, .01f),
+			NormalizeToScreen(dimension.y, i*.06f+.01f),
+			NormalizeToScreen(dimension.x,.1f),
+			NormalizeToScreen(dimension.y,.05f)
+			);
+			
+			if (GUI.Button(fruitPos, fruits[i].getType().ToString()))
+			{
+				Fruit myFruit = fruits[i];
+				
+				if (petBelly.EatFruit(myFruit))
+				{
+					message = "Ate the fruit, now " + petBelly.GetBellyFullness() + " out of " + petBelly.GetBellyCapacity() + " full";
+					petInventory.TakeFruit(fruits[i]);
+				}
+			}
+		}
+		
+		
+	}
+	
 	
 	
 	

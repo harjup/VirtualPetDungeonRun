@@ -22,7 +22,7 @@ public class Pet : MonoBehaviour, IPet
 		petBelly = GameObject.Find("PetGarden").GetComponent<PetBelly>();
 		
 		
-		myEnergy = petBelly.getMaxEnergy();
+		myEnergy = petBelly.GetMaxEnergy();
 	}
 	
 	
@@ -59,7 +59,7 @@ public class Pet : MonoBehaviour, IPet
 		}
 		*/
 		
-		Fruit currentFruit = petBelly.getLastFruitEaten();
+		Fruit currentFruit = petBelly.GetLastFruitEaten();
 		
 		//Debug to check energy level
 		myEnergy = currentFruit.getEnergy();
@@ -72,7 +72,7 @@ public class Pet : MonoBehaviour, IPet
 		//If the fruit's energy is all used up...
 		petStats.AddXP(currentFruit);
 		
-		if (petBelly.removeFruit(currentFruit))
+		if (petBelly.RemoveFruit(currentFruit))
 		{
 			return true;
 		}

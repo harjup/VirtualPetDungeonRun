@@ -36,25 +36,29 @@ public class Stat
 	//Adds experience to stat, returns whether this causes a level up
 	public bool addXP(int amount)
 	{
+		bool leveledUp = false;
+		
 		currentXP += amount;
 		
 		Debug.Log(myType.ToString() +" at "+currentXP+" experence");
 		
-		if (currentXP >= xpToNextLevel)
+		while (currentXP >= xpToNextLevel)
 		{
 			level +=1;
 			currentXP -=xpToNextLevel;
 			xpToNextLevel = getXPToNextLevel(level);
 			Debug.Log(myType.ToString() + " level up to " + level);
-			return true;
+			leveledUp = true;
 		}
 		
-		return false;
+		return leveledUp;
 	}
 	
 	int getXPToNextLevel(int level)
 	{
 		return level * 10;
 	}
+	
+	
 	
 }

@@ -13,6 +13,7 @@ public class PetFieldOfView : MonoBehaviour
 		{"Obstacle",1},
 		{"Combat", 3},
 		{"Treasure", 2},
+		{"Collectable", 2},
 		{"Stairs", 0},
 		{"End Goal", 0}
 	};
