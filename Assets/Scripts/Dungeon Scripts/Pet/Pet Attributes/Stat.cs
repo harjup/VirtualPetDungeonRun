@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// Describes a pet's proficiency in a given discipline
@@ -32,16 +33,19 @@ public class Stat
 		return myType;
 	}
 	
-	//Adds experience to stat, checks if this causes a level up
+	//Adds experience to stat, returns whether this causes a level up
 	public bool addXP(int amount)
 	{
 		currentXP += amount;
+		
+		Debug.Log(myType.ToString() +" at "+currentXP+" experence");
 		
 		if (currentXP >= xpToNextLevel)
 		{
 			level +=1;
 			currentXP -=xpToNextLevel;
 			xpToNextLevel = getXPToNextLevel(level);
+			Debug.Log(myType.ToString() + " level up to " + level);
 			return true;
 		}
 		

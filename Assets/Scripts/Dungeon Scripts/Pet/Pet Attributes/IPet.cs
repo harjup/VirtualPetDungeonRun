@@ -9,7 +9,7 @@ public interface IPet
 	GameObject GetCurrentPOI();
 	
 	//Get the value for a given attribute
-	int GetAttribute(Stat.type type);
+	int GetStatLevel(Stat.type type);
 	
 	GameObject GetPetObject();
 	

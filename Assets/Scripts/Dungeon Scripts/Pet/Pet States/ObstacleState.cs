@@ -5,7 +5,7 @@ using System.Collections;
 /// State for dealing with an obstacle, will likely encompass all obstacles (combat, treasure, etc)
 /// 
 /// TO DO:	Pass an attribute object into the obstacle for interaction, perhaps even a set of all the pet's attributes so it can bestow XP
-/// 		There's a bug where the pet will randomly get stuck in this state
+/// 		There's a bug where the pet will randomly get stuck in this state, possibly fixed
 /// </summary>
 public class ObstacleState : PetState, ICombat
 {
@@ -36,7 +36,7 @@ public class ObstacleState : PetState, ICombat
 			{
 				//If the pet completes the objective then switch to Celebrate state
 				PlayMakerFSM.BroadcastEvent(transitionToCelebrate);
-				
+				isMyTurn = true;
 			}
 			
 			//If the pet runs out of energy, switch to the out of energy state

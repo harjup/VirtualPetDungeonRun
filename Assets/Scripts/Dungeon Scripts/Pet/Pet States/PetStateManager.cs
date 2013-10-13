@@ -12,7 +12,7 @@ public class PetStateManager : MonoBehaviour
 	
 	IPet currentPet;
 	
-	
+	//Currently unused enum specifying all the state names
 	public enum State
 	{
 		Hyping_Up,

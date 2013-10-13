@@ -6,17 +6,23 @@ public class Pet : MonoBehaviour, IPet
 {
 	PetFieldOfView FOV;
 	
-	List<Stat> stats = new List<Stat>();
+	//List<Stat> stats = new List<Stat>();
 	
 	[SerializeField]
 	float myEnergy;
+	
+	PetStats petStats;
+	PetBelly petBelly;
 	
 	void Start () 
 	{
 		FOV = transform.FindChild("PetFOV").GetComponent<PetFieldOfView>();
 		
-		stats.Add(new Stat(Stat.type.power));
-		stats.Add(new Stat(Stat.type.speed));	
+		petStats = GameObject.Find("PetGarden").GetComponent<PetStats>();
+		petBelly = GameObject.Find("PetGarden").GetComponent<PetBelly>();
+		
+		
+		myEnergy = petBelly.getMaxEnergy();
 	}
 	
 	
@@ -26,24 +32,22 @@ public class Pet : MonoBehaviour, IPet
 		return FOV.GetTopItem();
 	}
 	
-	public int GetAttribute(Stat.type type)
-	{
-		foreach (Stat s in stats)
-		{
-			if (s.GetStatType() == type)
-				return s.GetLevel();
-		}
-		
-		return -1;
-	}
-	
 	public GameObject GetPetObject()
 	{
 		return this.gameObject;	
 	}
 	
+	public int GetStatLevel(Stat.type type)
+	{
+		return petStats.GetLevel(type);
+	}
+	
+
+	
 	public bool DrainEnergy()
 	{
+		
+		/*
 		if (myEnergy > 0)
 		{
 			myEnergy -= Time.deltaTime;
@@ -53,8 +57,27 @@ public class Pet : MonoBehaviour, IPet
 			//Switch to energy depleted state
 			return false;
 		}
+		*/
 		
-		return true;
+		Fruit currentFruit = petBelly.getLastFruitEaten();
+		
+		//Debug to check energy level
+		myEnergy = currentFruit.getEnergy();
+		
+		if (currentFruit.useEnergy(Time.deltaTime))
+		{
+			return true;
+		}
+		
+		//If the fruit's energy is all used up...
+		petStats.AddXP(currentFruit);
+		
+		if (petBelly.removeFruit(currentFruit))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public void AddEnergy(int amount)
