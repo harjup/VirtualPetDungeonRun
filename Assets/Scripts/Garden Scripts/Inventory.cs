@@ -4,20 +4,40 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour 
 {
-	List<Fruit> myFruits = new List<Fruit>();
+	//List<Fruit> myFruits = new List<Fruit>();
 	
-	public List<Fruit> GetFruits()
+	Dictionary<Fruit, int> myFruits = new Dictionary<Fruit, int>()
+	{
+		
+	};
+	
+	public Dictionary<Fruit, int> GetFruits()
 	{
 		return myFruits;
 	}
 	
 	public void AddFruit(Fruit fruit)
 	{
-		myFruits.Add(fruit);
+		if (myFruits.ContainsKey(fruit))
+		{
+			myFruits[fruit]++;	
+		}
+		else
+		{
+			myFruits.Add(fruit, 1);	
+		}
 	}
 	
 	public void TakeFruit(Fruit fruit)
 	{
-		myFruits.Remove(fruit);	
+		if (myFruits.ContainsKey(fruit))
+		{
+			myFruits[fruit]--;	
+			
+			if (myFruits[fruit] == 0)
+			{
+				myFruits.Remove(fruit);	
+			}
+		}
 	}
 }

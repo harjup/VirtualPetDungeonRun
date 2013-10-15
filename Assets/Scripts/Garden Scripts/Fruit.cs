@@ -6,17 +6,26 @@ using System.Collections;
 /// </summary>
 public class Fruit
 {
+	string name;
 	Stat.type myType;
 	int xp;
 	float energy;
 	int bellyValue;
 	
-	public Fruit(Stat.type _mytype, int _xp, float _energy, int _bellyValue)
+	
+	public Fruit(string _name, Stat.type _mytype, int _xp, float _energy, int _bellyValue)
 	{
+		name = _name;
 		myType = _mytype;
 		xp = _xp;
 		energy = _energy;
 		bellyValue = _bellyValue;
+	}
+	
+	
+	public string GetName()
+	{
+		return name;
 	}
 	
 	public Stat.type getType()

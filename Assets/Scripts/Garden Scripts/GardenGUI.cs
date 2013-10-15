@@ -37,13 +37,6 @@ public class GardenGUI : MonoBehaviour
 	{
 		DrawInventory();
 		
-		Rect feedPetPos = new Rect(
-			NormalizeToScreen(dimension.x,.9f),
-			NormalizeToScreen(dimension.y,.0125f),
-			NormalizeToScreen(dimension.x,.09f),
-			NormalizeToScreen(dimension.y,.09f)
-			);
-		
 		Rect gotoDungeonPos = new Rect(
 			NormalizeToScreen(dimension.x,.9f),
 			NormalizeToScreen(dimension.y,.9f),
@@ -68,24 +61,6 @@ public class GardenGUI : MonoBehaviour
 		
 		GUI.Label(userMessagePos, message);
 		
-		
-		if (GUI.Button(feedPetPos, "Feed Pet"))
-		{
-			//Tell the pet to try eating a power fruit
-			Fruit myFruit = new Fruit(Stat.type.power, 30, 2, 20);
-			
-			if (petBelly.EatFruit(myFruit))
-			{
-				//Debug.Log("Ate the fruit");
-				message = "Ate the fruit, now " + petBelly.GetBellyFullness() + " out of " + petBelly.GetBellyCapacity() + " full";
-			}
-			else
-			{
-				//Debug.Log("Pet is too full");	
-				message = "Pet is too full";
-			}
-		}
-		
 		if (GUI.Button(gotoGatheringPos, "Gather Fruits"))
 		{
 			//Load gathering scene
@@ -103,18 +78,20 @@ public class GardenGUI : MonoBehaviour
 	
 	void DrawInventory()
 	{
-		List<Fruit> fruits = petInventory.GetFruits();
+		Dictionary<Fruit, int> fruitDictionary = petInventory.GetFruits();
+		Fruit[] fruits = new Fruit[fruitDictionary.Count];
+		fruitDictionary.Keys.CopyTo(fruits, 0);
 		
-		for (int i = 0; i < fruits.Count; i++) 
+		for (int i = 0; i < fruits.Length; i++) 
 		{
 				Rect fruitPos = new Rect(
 			NormalizeToScreen(dimension.x, .01f),
-			NormalizeToScreen(dimension.y, i*.06f+.01f),
-			NormalizeToScreen(dimension.x,.1f),
-			NormalizeToScreen(dimension.y,.05f)
+			NormalizeToScreen(dimension.y, i*.1f+.01f),
+			NormalizeToScreen(dimension.x,.2f),
+			NormalizeToScreen(dimension.y,.09f)
 			);
 			
-			if (GUI.Button(fruitPos, fruits[i].getType().ToString()))
+			if (GUI.Button(fruitPos, fruits[i].GetName() + " x " + fruitDictionary[fruits[i]].ToString()))
 			{
 				Fruit myFruit = fruits[i];
 				
@@ -122,6 +99,10 @@ public class GardenGUI : MonoBehaviour
 				{
 					message = "Ate the fruit, now " + petBelly.GetBellyFullness() + " out of " + petBelly.GetBellyCapacity() + " full";
 					petInventory.TakeFruit(fruits[i]);
+				}
+				else
+				{	
+					message = "Pet is too full";
 				}
 			}
 		}

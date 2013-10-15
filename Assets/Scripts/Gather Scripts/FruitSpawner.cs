@@ -27,7 +27,9 @@ public class FruitSpawner : MonoBehaviour
 		GameObject g = Instantiate(fruitPrefab, GeneratePosition(), Quaternion.identity) as GameObject;
 		Collectable c = g.GetComponent<Collectable>();
 		
-		c.Init(TypesOfFruit.GetFruit(TypesOfFruit.fruits.StrongerFruit));
+		//c.Init(TypesOfFruit.GetFruit(TypesOfFruit.fruits.StrongerFruit));
+		c.Init(TypesOfFruit.GetRandomFruit());
+		
 		
 		prefabsSpawned++;
 	}
