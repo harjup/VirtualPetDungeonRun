@@ -2,10 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// State for dealing with an obstacle, will likely encompass all obstacles (combat, treasure, etc)
-/// 
-/// TO DO:	Pass an attribute object into the obstacle for interaction, perhaps even a set of all the pet's attributes so it can bestow XP
-/// 		There's a bug where the pet will randomly get stuck in this state, possibly fixed
+/// State for dealing with an obstacle. Provides the behaviors nessesary for an obstacle to orchestrate their interaction, through an interface.
+/// Logic exists in the current obstacle's run function, which is called every frame in this script's run function.
 /// </summary>
 public class ObstacleState : PetState, IPetCombat
 {
@@ -13,9 +11,7 @@ public class ObstacleState : PetState, IPetCombat
 	private const string transitionToCelebrate = "Complete";
 	private const string transitionToNoEnergy = "Energy Depleted";
 	
-	bool isMyTurn = false;
-	int petStat = 0;
-	Obstacle currentObstacle;
+	Blockade currentObstacle;
 	
 	public override string GetName()
 	{
@@ -24,18 +20,21 @@ public class ObstacleState : PetState, IPetCombat
 	
 	public override void Init()
 	{
-		isMyTurn = true;
-		currentObstacle = myPet.GetCurrentPOI().GetComponent<Obstacle>();
+		currentObstacle = myPet.GetCurrentPOI().GetComponent<Blockade>();
+		
+		currentObstacle.Init(this as IPetCombat);
 	}
 	
 	public override void Run()
 	{	
+		currentObstacle.Run();
+		/*
 		if (isMyTurn)
 		{
 			if (currentObstacle.ApplySkill(petStat))	//Run a function to determine the pet's progress
 			{
 				//If the pet completes the objective then switch to Celebrate state
-				PlayMakerFSM.BroadcastEvent(transitionToCelebrate);
+				
 				isMyTurn = true;
 			}
 			
@@ -48,6 +47,7 @@ public class ObstacleState : PetState, IPetCombat
 			
 			EndTurn();
 		}
+		*/
 	}
 	
 	
@@ -68,29 +68,34 @@ public class ObstacleState : PetState, IPetCombat
 	{
 		int level = myPet.GetStatLevel(requestedStat);
 		
-		return level;
+		return level * 3;
 	}
 	
 	public void RequestAnim(string anim)
 	{
-		iTween.PunchPosition(this.gameObject, new Vector3(1f,0f,1f), 1f);
+		Debug.Log("Do a punch");
+		iTween.PunchPosition(myPet.GetPetObject(), new Vector3(1f,0f,1f), 1f);
 	}
 	
+	public void ObstacleComplete()
+	{
+		PlayMakerFSM.BroadcastEvent(transitionToCelebrate);
+	}
 	
 	
 	//To be deleted when Obstacle_Placeholder is thrown away
 	public void StartTurn()
 	{
 		//turn initialization here
-		isMyTurn = true;
+		//isMyTurn = true;
 		//petStat = myPet.GetAttribute(Stat.type.power);	//Get the Pet's associated numbers
-		petStat = 5;
+		//petStat = 5;
 	}
 	
 	public void EndTurn()
 	{
-		isMyTurn = false;
-		currentObstacle.StartTurn(this);
+		//isMyTurn = false;
+		//currentObstacle.StartTurn(this);
 	}
 	
 	

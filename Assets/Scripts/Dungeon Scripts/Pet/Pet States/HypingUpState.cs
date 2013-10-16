@@ -6,8 +6,6 @@ public class HypingUpState : PetState
 	private const string stateName = "Hyping Up";
 	private const string transitionToProgressing = "Countdown Complete";
 	
-	private bool isInit = true;
-	
 	public override string GetName()
 	{
 		return stateName;

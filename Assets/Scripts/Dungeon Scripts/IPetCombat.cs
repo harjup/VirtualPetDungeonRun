@@ -11,4 +11,6 @@ public interface IPetCombat
 	int RollStat(Stat.type requestedStat);	//Returns a roll for the given stat, determined based on their level
 	
 	void RequestAnim(string anim);			//Request a specific animation for the pet to play
+	
+	void ObstacleComplete();
 }
