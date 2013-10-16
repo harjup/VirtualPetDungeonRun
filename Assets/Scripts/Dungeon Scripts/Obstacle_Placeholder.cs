@@ -9,7 +9,7 @@ public class Obstacle_Placeholder : Obstacle
 	//string requiredSkill = "skill";
 	//int health = 10;
 	
-	ICombat myOpponent;
+	IPetCombat myOpponent;
 	
 	void Start()
 	{
@@ -22,7 +22,7 @@ public class Obstacle_Placeholder : Obstacle
 		return Stat.type.power;	
 	}
 	
-	public override void StartTurn(ICombat opponent)
+	public override void StartTurn(IPetCombat opponent)
 	{
 		isMyTurn = true;
 		iTween.PunchPosition(this.gameObject, iTween.Hash("amount", new Vector3(0f,2f,0f), "time", 1f, "onComplete", "EndTurn"));
@@ -45,7 +45,7 @@ public class Obstacle_Placeholder : Obstacle
 	
 	
 	//Applies stat against obstacle, input will eventually be a stat object
-	public bool ApplySkill(int level)
+	public override bool ApplySkill(int level)
 	{
 		health -= level;
 		

@@ -9,7 +9,9 @@ public abstract class Obstacle : MonoBehaviour
 	protected int health;
 	protected bool isMyTurn = false;
 	
+	public abstract bool ApplySkill(int level);
+	
 	public abstract Stat.type GetRequiredStat();
-	public abstract void StartTurn(ICombat opponent);	
+	public abstract void StartTurn(IPetCombat opponent);	
 	public abstract void EndTurn();
 }
