@@ -13,6 +13,7 @@ public class Pet : MonoBehaviour, IPet
 	
 	PetStats petStats;
 	PetBelly petBelly;
+	Inventory petInventory;
 	
 	void Start () 
 	{
@@ -20,7 +21,7 @@ public class Pet : MonoBehaviour, IPet
 		
 		petStats = GameObject.Find("PetGarden").GetComponent<PetStats>();
 		petBelly = GameObject.Find("PetGarden").GetComponent<PetBelly>();
-		
+		petInventory = GameObject.Find("PetGarden").GetComponent<Inventory>();
 		
 		myEnergy = petBelly.GetMaxEnergy();
 	}
@@ -42,7 +43,10 @@ public class Pet : MonoBehaviour, IPet
 		return petStats.GetLevel(type);
 	}
 	
-
+	public void CollectItem(Fruit fruit)
+	{
+		petInventory.AddFruit(fruit);
+	}
 	
 	public bool DrainEnergy()
 	{

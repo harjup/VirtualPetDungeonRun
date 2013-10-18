@@ -16,4 +16,6 @@ public interface IPet
 	bool DrainEnergy();
 	
 	void AddEnergy(int amount);
+	
+	void CollectItem(Fruit fruit);
 }

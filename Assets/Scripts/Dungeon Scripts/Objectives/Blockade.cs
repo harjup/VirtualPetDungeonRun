@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Blockade : MonoBehaviour 
+public class Blockade : Objective 
 {
 	bool myTurn = false;
 	int health = 10;
 	
-	IPetCombat myPetCombat;
+	//IPetCombat myPetCombat;
 	
 	public GameObject petPosition;
 	
 	bool waitingForPet = false;
 	
-	public void Init(IPetCombat myPet)
+	public override void Init(IPetCombat myPet)
 	{
 		//List of stuff needs to be run before starting the interaction proper.
 		myPetCombat = myPet;
@@ -24,7 +24,7 @@ public class Blockade : MonoBehaviour
 		//Waits until everything is finished, and then transitions to main loop
 	}
 	
-	public void Run()
+	public override void Run()
 	{
 		if (waitingForPet)
 		{
@@ -60,11 +60,8 @@ public class Blockade : MonoBehaviour
 				CleanUp();
 			}
 			myPetCombat.RequestAnim("theAnimation");
-			
-			
-			
+	
 			iTween.PunchPosition(this.gameObject, iTween.Hash("amount", new Vector3(0f,2f,0f), "time", 1f, "onComplete", "EndTurn", "delay", .1f));
-			
 			
 			//Let the pet know what type of animation to play and apply damage.
 			

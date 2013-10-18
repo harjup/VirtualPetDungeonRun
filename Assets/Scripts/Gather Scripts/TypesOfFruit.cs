@@ -15,6 +15,8 @@ public static class TypesOfFruit
 		SpeedyFruit
 	};
 	
+	public static Fruit defaultFruit = new Fruit("Default Fruit", Stat.type.power, 1, 1, 1);
+	
 	static Dictionary<fruits, Fruit> fruitTypes = new Dictionary<fruits, Fruit>()
 	{
 		{fruits.StrongFruit, 	new Fruit("StrongFruit", Stat.type.power, 10, 10f, 10)},

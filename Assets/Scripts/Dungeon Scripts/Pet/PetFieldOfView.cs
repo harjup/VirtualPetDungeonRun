@@ -24,22 +24,17 @@ public class PetFieldOfView : MonoBehaviour
 	//Get the top item that's currently reachable
 	public GameObject GetTopItem()
 	{
+		CleanList();
+		
 		if (PoIObjects.Count != 0)
 		{	
 			//Iterate through each item in PoIObjects and
 			//return the first item that's reachable
 			for (int i = 0; i < PoIObjects.Count; i++) 
 			{
+				
 				GameObject currentObj = PoIObjects[i];
-				
-				//If the obstacle is no longer active, remove it from the list
-				if (currentObj.tag == "Untagged")
-				{
-					PoIObjects.RemoveAt(i);
-					i--;
-					continue;
-				}
-				
+
 				//If the pet can see the current object, return it
 				if (CheckIfAccessible(currentObj))
 				{
@@ -51,6 +46,23 @@ public class PetFieldOfView : MonoBehaviour
 		//If no reachable items are found return null
 		return null;
 	}
+	
+	void CleanList()
+	{
+		for (int i = 0; i < PoIObjects.Count; i++) 
+		{
+			GameObject currentObj = PoIObjects[i];
+			
+			//If the obstacle is no longer active, remove it from the list
+			if (currentObj.tag == "Untagged")
+			{
+				PoIObjects.RemoveAt(i);
+				i--;
+				continue;
+			}
+		}
+	}
+	
 	
 	//Checks to see if the current item is blocked by another object
 	bool CheckIfAccessible(GameObject item)
@@ -96,6 +108,8 @@ public class PetFieldOfView : MonoBehaviour
 	//When a new item enters the pet's FOV, check its priority and add it to the appropriate spot
 	void AddItem(GameObject obj)
 	{
+		CleanList();
+		
 		int objPriority = interestPoints[obj.tag];
 		
 		for (int i = 0; i < PoIObjects.Count; i++) 

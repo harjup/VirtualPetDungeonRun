@@ -28,7 +28,7 @@ public class FruitSpawner : MonoBehaviour
 		Collectable c = g.GetComponent<Collectable>();
 		
 		//c.Init(TypesOfFruit.GetFruit(TypesOfFruit.fruits.StrongerFruit));
-		c.Init(TypesOfFruit.GetRandomFruit());
+		c.SetFruit(TypesOfFruit.GetRandomFruit());
 		
 		
 		prefabsSpawned++;

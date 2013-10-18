@@ -1,14 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Collectable : MonoBehaviour 
+public class Collectable : Objective 
 {
-	Fruit myFruit;
+	Fruit myFruit = TypesOfFruit.defaultFruit;
 	
 	public string debugFruitType;
 	public string debugXPValue;
 	
-	public void Init(Fruit _myFruit)
+	public override void Init(IPetCombat myPet)
+	{
+		myPetCombat = myPet;
+	}
+	
+	public override void Run()
+	{
+		transform.localScale = new Vector3(.1f,.1f,.1f);
+		tag = "Untagged";
+		myPetCombat.CollectItem(myFruit);
+		myPetCombat.ObstacleComplete();
+	}
+	
+	public void SetFruit(Fruit _myFruit)
 	{
 		myFruit = _myFruit;
 		

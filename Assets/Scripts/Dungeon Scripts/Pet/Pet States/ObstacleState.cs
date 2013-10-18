@@ -11,7 +11,9 @@ public class ObstacleState : PetState, IPetCombat
 	private const string transitionToCelebrate = "Complete";
 	private const string transitionToNoEnergy = "Energy Depleted";
 	
-	Blockade currentObstacle;
+	float defaultSpeed = 1f;
+	
+	Objective currentObstacle;
 	
 	public override string GetName()
 	{
@@ -20,7 +22,7 @@ public class ObstacleState : PetState, IPetCombat
 	
 	public override void Init()
 	{
-		currentObstacle = myPet.GetCurrentPOI().GetComponent<Blockade>();
+		currentObstacle = myPet.GetCurrentPOI().GetComponent<Objective>();
 		
 		currentObstacle.Init(this as IPetCombat);
 	}
@@ -28,33 +30,34 @@ public class ObstacleState : PetState, IPetCombat
 	public override void Run()
 	{	
 		currentObstacle.Run();
-		/*
-		if (isMyTurn)
-		{
-			if (currentObstacle.ApplySkill(petStat))	//Run a function to determine the pet's progress
-			{
-				//If the pet completes the objective then switch to Celebrate state
-				
-				isMyTurn = true;
-			}
-			
-			//If the pet runs out of energy, switch to the out of energy state
-			if (!myPet.DrainEnergy())
-			{
-				//Go to no energy state
-				PlayMakerFSM.BroadcastEvent(transitionToNoEnergy);
-			}
-			
-			EndTurn();
-		}
-		*/
 	}
+	
+	
 	
 	
 	public void MoveToPosition(Vector3 target)
 	{
-		iTween.MoveTo(this.gameObject, target, 1f);
+		MoveToPosition(target, defaultSpeed);
 	}
+	public void MoveToPosition(Vector3 target, float speed)
+	{
+		GameObject myPetObject = myPet.GetPetObject();
+		
+		//Remove any currently ongoing movement commands
+		iTween.Stop(myPetObject);
+		
+		if (Vector3.Distance(myPetObject.transform.position, target) < .2f)
+		{
+			
+		}
+		else
+		{
+			iTween.MoveTo(myPetObject, iTween.Hash("position", target, "speed", speed));	
+		}
+		
+		
+	}
+	
 	public bool isFinishedMoving()	
 	{
 		if (iTween.Count(this.gameObject) == 0)
@@ -82,6 +85,10 @@ public class ObstacleState : PetState, IPetCombat
 		PlayMakerFSM.BroadcastEvent(transitionToCelebrate);
 	}
 	
+	public void CollectItem(Fruit fruit)
+	{
+		myPet.CollectItem(fruit);
+	}
 	
 	//To be deleted when Obstacle_Placeholder is thrown away
 	public void StartTurn()
