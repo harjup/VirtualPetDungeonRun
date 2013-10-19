@@ -28,15 +28,8 @@ public class ProgressionState : PetState
 	{
 		return stateName;
 	}
-
-	public override void Run()
-	{
-		Progress();
-		CheckForPointsOfInterest();
-	}
 	
-	//While there are no points of interest, go to the next waypoint until you reach the end
-	void Progress()
+	public override void Init()
 	{
 		if (newLevel)
 		{
@@ -48,14 +41,28 @@ public class ProgressionState : PetState
 			currentNode = p.pathNodes[nodeIndex];
 		}
 		
+		myPet.MoveToPosition(currentNode, myPet.GetStatLevel(Stat.type.speed));	
+	}
+	
+	public override void Run()
+	{
+		Progress();
+		CheckForPointsOfInterest();
+	}
+	
+	//While there are no points of interest, go to the next waypoint until you reach the end
+	void Progress()
+	{
+
 		
-		WalkToNextNode();
+		
+		CheckEnergy();
 		
 		
 		
-		float proximity = (petObject.transform.position - currentNode.transform.position).magnitude;
+		float proximity = Vector3.Distance(petObject.transform.position, currentNode.transform.position);
 		
-		if (proximity < .5f)
+		if (proximity < 1f)
 		{
 			if (currentNode == p.endNode)
 			{
@@ -69,29 +76,23 @@ public class ProgressionState : PetState
 			
 			if (p.pathNodes.Count <= nodeIndex)
 			{
-				currentNode = p.endNode;	
+				currentNode = p.endNode;
 			}
 			else
 			{
 				currentNode = p.pathNodes[nodeIndex];
 			}
+			
+			//Moves to the next node, speed based on speed stat
+			myPet.MoveToPosition(currentNode, myPet.GetStatLevel(Stat.type.speed));
 		}
 		
-		//Starting from the start node, walk from one node to the next until you reach the end node
-		
-		//Walk speed is determined by speed stat
-		//Decrement energy
 	}
 	
-	void WalkToNextNode()
+	void CheckEnergy()
 	{
-		if (myPet.DrainEnergy())
+		if (!myPet.DrainEnergy(Time.deltaTime))
 		{
-			iTween.MoveUpdate(petObject, iTween.Hash("position", currentNode.transform.position));
-		}
-		else
-		{
-			//Go to no energy state	
 			PlayMakerFSM.BroadcastEvent(transitionToNoEnergy);
 		}
 		

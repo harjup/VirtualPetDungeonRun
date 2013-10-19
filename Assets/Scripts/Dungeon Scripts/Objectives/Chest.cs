@@ -11,7 +11,7 @@ public class Chest : Objective
 	public override void Init(IPetCombat myPet)
 	{
 		myPetCombat = myPet;
-		myPetCombat.MoveToPosition(petInitialPosition.transform.position);
+		myPetCombat.MoveToPosition(petInitialPosition);
 		waitingForPet = true;
 	}
 	

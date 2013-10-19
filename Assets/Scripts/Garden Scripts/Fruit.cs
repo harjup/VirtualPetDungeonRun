@@ -10,6 +10,7 @@ public class Fruit
 	Stat.type myType;
 	int xp;
 	float energy;
+	float energyMaximum;
 	int bellyValue;
 	
 	
@@ -19,9 +20,28 @@ public class Fruit
 		myType = _mytype;
 		xp = _xp;
 		energy = _energy;
+		energyMaximum = _energy;
 		bellyValue = _bellyValue;
 	}
 	
+	//Workaround for getting a unique instance of a given fruit
+	//May eventually get replaced with a factory implementation
+	public Fruit GetClone()
+	{
+		return new Fruit(name, myType, xp, energy, bellyValue);
+	}
+	
+	public bool CheckIfSame(Fruit f)
+	{
+		string myProps = name + myType.ToString() + xp + energy + bellyValue;
+		string otherProps = f.name + f.getType().ToString() + f.getXP() + f.getEnergy() + f.getBellyVal();
+		
+		if (myProps == otherProps)
+		{
+			return true;
+		}
+		return false;
+	}
 	
 	public string GetName()
 	{
@@ -41,6 +61,11 @@ public class Fruit
 	public float getEnergy()
 	{
 		return energy;
+	}
+	
+	public float getEnergyMax()
+	{
+		return energyMaximum;
 	}
 	
 	public int getBellyVal()

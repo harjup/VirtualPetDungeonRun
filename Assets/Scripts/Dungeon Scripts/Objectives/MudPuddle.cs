@@ -14,7 +14,7 @@ public class MudPuddle : Objective
 	public override void Init(IPetCombat myPet)
 	{
 		myPetCombat = myPet;
-		myPetCombat.MoveToPosition(petInitialPosition.transform.position);
+		myPetCombat.MoveToPosition(petInitialPosition);
 		timer = 0f;
 		waitingForPet = true;
 	}
@@ -34,6 +34,7 @@ public class MudPuddle : Objective
 	void RunTurnOrder()
 	{
 		timer -= Time.deltaTime;
+		myPetCombat.UseEnergy(Time.deltaTime * 2f);
 		
 		if (timer <= 0f)
 		{
@@ -41,7 +42,7 @@ public class MudPuddle : Objective
 			
 			float petSpeed = myPetCombat.RollStat(Stat.type.speed)/2f;
 			
-			myPetCombat.MoveToPosition(petGoalPosition.transform.position, petSpeed);
+			myPetCombat.MoveToPosition(petGoalPosition, petSpeed);
 		}
 		
 		if (myPetCombat.isFinishedMoving())

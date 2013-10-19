@@ -14,6 +14,7 @@ public class ObstacleState : PetState, IPetCombat
 	float defaultSpeed = 1f;
 	
 	Objective currentObstacle;
+	Objective newObstacle;
 	
 	public override string GetName()
 	{
@@ -22,9 +23,13 @@ public class ObstacleState : PetState, IPetCombat
 	
 	public override void Init()
 	{
-		currentObstacle = myPet.GetCurrentPOI().GetComponent<Objective>();
+		newObstacle = myPet.GetCurrentPOI().GetComponent<Objective>();
 		
-		currentObstacle.Init(this as IPetCombat);
+		if(newObstacle != currentObstacle)
+		{
+			currentObstacle = newObstacle;
+			currentObstacle.Init(this as IPetCombat);
+		}
 	}
 	
 	public override void Run()
@@ -35,24 +40,26 @@ public class ObstacleState : PetState, IPetCombat
 	
 	
 	
-	public void MoveToPosition(Vector3 target)
+	public void MoveToPosition(GameObject target)
 	{
 		MoveToPosition(target, defaultSpeed);
 	}
-	public void MoveToPosition(Vector3 target, float speed)
+	public void MoveToPosition(GameObject target, float speed)
 	{
 		GameObject myPetObject = myPet.GetPetObject();
 		
 		//Remove any currently ongoing movement commands
 		iTween.Stop(myPetObject);
 		
-		if (Vector3.Distance(myPetObject.transform.position, target) < .2f)
+		if (Vector3.Distance(myPetObject.transform.position, target.transform.position) < 1.2f)
 		{
-			
+			//Ignore command
 		}
 		else
 		{
-			iTween.MoveTo(myPetObject, iTween.Hash("position", target, "speed", speed));	
+			myPet.MoveToPosition(target, speed);
+			//iTween.MoveTo(myPetObject, iTween.Hash("position", target, "speed", speed));	
+			//myPet.MoveToPosition(
 		}
 		
 		
@@ -60,7 +67,7 @@ public class ObstacleState : PetState, IPetCombat
 	
 	public bool isFinishedMoving()	
 	{
-		if (iTween.Count(this.gameObject) == 0)
+		if (iTween.Count(myPet.GetPetObject()) == 0)
 		{
 			return true;
 		}
@@ -72,6 +79,18 @@ public class ObstacleState : PetState, IPetCombat
 		int level = myPet.GetStatLevel(requestedStat);
 		
 		return level * 3;
+	}
+	
+	public void UseEnergy(float amount)
+	{
+		if (myPet.DrainEnergy(amount))
+		{
+			
+		}
+		else
+		{
+			PlayMakerFSM.BroadcastEvent(transitionToNoEnergy);
+		}
 	}
 	
 	public void RequestAnim(string anim)

@@ -21,19 +21,25 @@ public class ApproachPOIState : PetState
 	{
 		return stateName;
 	}
-
+	
+	public override void Init()
+	{
+		isNewPOI = true;
+	}
+	
 	public override void Run()
 	{
 		if (isNewPOI)
 		{	
 			targetPOI = myPet.GetCurrentPOI();
-			//Stop moving, play thinking anim
+			//Stop moving, play thinking anim. Then begin approaching current target
+			myPet.MoveToPosition(targetPOI, myPet.GetStatLevel(Stat.type.speed));
 			
 			isNewPOI = false;
 		}
 		else
 		{
-			if (myPet.DrainEnergy())
+			if (myPet.DrainEnergy(Time.deltaTime))
 			{
 				Approach();
 			}
@@ -49,14 +55,15 @@ public class ApproachPOIState : PetState
 	{
 		if (targetPOI != myPet.GetCurrentPOI())
 		{
-			isNewPOI = true;	
+			isNewPOI = true;
+			//myPet.MoveToPosition(targetPOI, 1f);
 		}
 		
 		if (targetPOI)
 		{
 			//Walk toward current target
-			iTween.MoveUpdate(petObject, iTween.Hash("position", targetPOI.transform.position, "time", 3f));
-	
+			//iTween.MoveUpdate(petObject, iTween.Hash("position", targetPOI.transform.position, "time", 3f));
+			
 			//When the target is reached, switch to the state appropriate for interacting with it
 			float distance = Vector3.Distance(petObject.transform.position, targetPOI.transform.position);
 			

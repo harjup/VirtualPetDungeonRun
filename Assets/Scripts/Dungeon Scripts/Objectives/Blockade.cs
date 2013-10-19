@@ -6,6 +6,8 @@ public class Blockade : Objective
 	bool myTurn = false;
 	int health = 10;
 	
+	float energyCost = 1f;
+	
 	//IPetCombat myPetCombat;
 	
 	public GameObject petPosition;
@@ -16,7 +18,7 @@ public class Blockade : Objective
 	{
 		//List of stuff needs to be run before starting the interaction proper.
 		myPetCombat = myPet;
-		myPetCombat.MoveToPosition(petPosition.transform.position);
+		myPetCombat.MoveToPosition(petPosition);
 		waitingForPet = true;
 		//Pet needs to move to the correct spot for interaction
 		//Any animations need to finish playing
@@ -60,7 +62,8 @@ public class Blockade : Objective
 				CleanUp();
 			}
 			myPetCombat.RequestAnim("theAnimation");
-	
+			myPetCombat.UseEnergy(energyCost);
+			
 			iTween.PunchPosition(this.gameObject, iTween.Hash("amount", new Vector3(0f,2f,0f), "time", 1f, "onComplete", "EndTurn", "delay", .1f));
 			
 			//Let the pet know what type of animation to play and apply damage.

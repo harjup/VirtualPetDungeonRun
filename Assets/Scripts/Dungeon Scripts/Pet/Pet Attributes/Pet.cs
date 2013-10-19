@@ -8,6 +8,8 @@ public class Pet : MonoBehaviour, IPet
 	
 	//List<Stat> stats = new List<Stat>();
 	
+	GameObject myPetObject;
+	
 	[SerializeField]
 	float myEnergy;
 	
@@ -17,6 +19,8 @@ public class Pet : MonoBehaviour, IPet
 	
 	void Start () 
 	{
+		myPetObject = this.gameObject;
+		
 		FOV = transform.FindChild("PetFOV").GetComponent<PetFieldOfView>();
 		
 		petStats = GameObject.Find("PetGarden").GetComponent<PetStats>();
@@ -24,6 +28,7 @@ public class Pet : MonoBehaviour, IPet
 		petInventory = GameObject.Find("PetGarden").GetComponent<Inventory>();
 		
 		myEnergy = petBelly.GetMaxEnergy();
+		
 	}
 	
 	
@@ -48,27 +53,14 @@ public class Pet : MonoBehaviour, IPet
 		petInventory.AddFruit(fruit);
 	}
 	
-	public bool DrainEnergy()
+	public bool DrainEnergy(float amount)
 	{
-		
-		/*
-		if (myEnergy > 0)
-		{
-			myEnergy -= Time.deltaTime;
-		}
-		else
-		{
-			//Switch to energy depleted state
-			return false;
-		}
-		*/
-		
 		Fruit currentFruit = petBelly.GetLastFruitEaten();
 		
 		//Debug to check energy level
 		myEnergy = currentFruit.getEnergy();
 		
-		if (currentFruit.useEnergy(Time.deltaTime))
+		if (currentFruit.useEnergy(amount))
 		{
 			return true;
 		}
@@ -76,6 +68,7 @@ public class Pet : MonoBehaviour, IPet
 		//If the fruit's energy is all used up...
 		petStats.AddXP(currentFruit);
 		
+		//If there's another fruit in line to be used, then continue on
 		if (petBelly.RemoveFruit(currentFruit))
 		{
 			return true;
@@ -87,6 +80,21 @@ public class Pet : MonoBehaviour, IPet
 	public void AddEnergy(int amount)
 	{
 		myEnergy += amount;	
+	}
+	
+	//Takes in a gameobject so I have the option to check if the object has moved, and have the pet change course to compensate
+	public void MoveToPosition(GameObject target, float speed)
+	{
+		iTween.Stop(myPetObject);
+		
+		iTween.MoveTo(myPetObject, iTween.Hash("position", target.transform.position, "speed", speed * 2f, "easetype", iTween.EaseType.linear));
+		
+		Debug.Log("Moving pet to " + target.name + " at speed " + speed.ToString() + " at postition " + target.transform.position.ToString());
+	}
+	
+	public void StopMoving()
+	{
+		iTween.Stop(myPetObject);
 	}
 	
 }

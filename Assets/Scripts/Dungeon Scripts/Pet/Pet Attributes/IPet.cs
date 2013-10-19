@@ -13,9 +13,13 @@ public interface IPet
 	
 	GameObject GetPetObject();
 	
-	bool DrainEnergy();
+	bool DrainEnergy(float amount);
+	
 	
 	void AddEnergy(int amount);
 	
 	void CollectItem(Fruit fruit);
+	
+	void MoveToPosition(GameObject target, float speed);
+	void StopMoving();
 }

@@ -25,15 +25,6 @@ public class PetCollectingFruit : MonoBehaviour
 		
 			
 			Approach();
-			/*
-			Vector3 targetPosition = new Vector3(
-				currentTarget.transform.position.x,
-				transform.position.y,
-				currentTarget.transform.position.z
-				);
-			
-			iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPosition, "time", 1f, "oncomplete", "Approach"));
-			*/
 		}
 		
 		if (currentTarget)
@@ -61,7 +52,8 @@ public class PetCollectingFruit : MonoBehaviour
 	{
 		if (currentTarget.tag != "Untagged")
 		{			
-			iTween.Stop();
+			iTween.Stop();		
+			
 			myInventory.AddFruit(currentTarget.GetComponent<Collectable>().GetMyFruit());
 			currentTarget.tag = "Untagged";
 			currentTarget.transform.localScale = new Vector3(.3f,.3f,.3f);

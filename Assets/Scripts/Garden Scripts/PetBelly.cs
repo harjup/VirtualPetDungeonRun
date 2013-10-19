@@ -19,7 +19,6 @@ public class PetBelly : MonoBehaviour
 		}
 		
 		fruitList.Add(f);
-		//Debug.Log("Ate the fruit, now " + GetBellyFullness() + " out of " + bellyCapacity + " full");
 		
 		return true;
 	}
@@ -57,6 +56,11 @@ public class PetBelly : MonoBehaviour
 		}
 		
 		return maxEnergy;
+	}
+	
+	public List<Fruit> GetFruitList()
+	{
+		return fruitList;	
 	}
 	
 	//Remove the specified fruit, called once the fruit is used up.

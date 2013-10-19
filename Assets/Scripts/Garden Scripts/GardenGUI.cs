@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 public class GardenGUI : MonoBehaviour 
 {
-	enum dimension {x, y};
+	//enum dimension {x, y};
+	GUITools.dimension x_dimension = GUITools.dimension.x;
+	GUITools.dimension y_dimension = GUITools.dimension.y;
 	
 	PetBelly petBelly;
 	Inventory petInventory;
@@ -38,24 +40,24 @@ public class GardenGUI : MonoBehaviour
 		DrawInventory();
 		
 		Rect gotoDungeonPos = new Rect(
-			NormalizeToScreen(dimension.x,.9f),
-			NormalizeToScreen(dimension.y,.9f),
-			NormalizeToScreen(dimension.x,.09f),
-			NormalizeToScreen(dimension.y,.09f)
+			GUITools.NormalizeToScreen(x_dimension,.9f),
+			GUITools.NormalizeToScreen(y_dimension,.9f),
+			GUITools.NormalizeToScreen(x_dimension,.09f),
+			GUITools.NormalizeToScreen(y_dimension,.09f)
 			);
 		
 		Rect gotoGatheringPos = new Rect(
-			NormalizeToScreen(dimension.x,.9f),
-			NormalizeToScreen(dimension.y,.8f),
-			NormalizeToScreen(dimension.x,.09f),
-			NormalizeToScreen(dimension.y,.09f)
+			GUITools.NormalizeToScreen(x_dimension,.9f),
+			GUITools.NormalizeToScreen(y_dimension,.8f),
+			GUITools.NormalizeToScreen(x_dimension,.09f),
+			GUITools.NormalizeToScreen(y_dimension,.09f)
 			);
 		
 		Rect userMessagePos = new Rect(
-			NormalizeToScreen(dimension.x,.05f),
-			NormalizeToScreen(dimension.y,.8f),
-			NormalizeToScreen(dimension.x,.8f),
-			NormalizeToScreen(dimension.y,.15f)
+			GUITools.NormalizeToScreen(x_dimension,.05f),
+			GUITools.NormalizeToScreen(y_dimension,.8f),
+			GUITools.NormalizeToScreen(x_dimension,.8f),
+			GUITools.NormalizeToScreen(y_dimension,.15f)
 			);
 	
 		
@@ -85,10 +87,10 @@ public class GardenGUI : MonoBehaviour
 		for (int i = 0; i < fruits.Length; i++) 
 		{
 				Rect fruitPos = new Rect(
-			NormalizeToScreen(dimension.x, .01f),
-			NormalizeToScreen(dimension.y, i*.1f+.01f),
-			NormalizeToScreen(dimension.x,.2f),
-			NormalizeToScreen(dimension.y,.09f)
+			GUITools.NormalizeToScreen(x_dimension, .01f),
+			GUITools.NormalizeToScreen(y_dimension, i*.1f+.01f),
+			GUITools.NormalizeToScreen(x_dimension,.2f),
+			GUITools.NormalizeToScreen(y_dimension,.09f)
 			);
 			
 			if (GUI.Button(fruitPos, fruits[i].GetName() + " x " + fruitDictionary[fruits[i]].ToString()))
@@ -112,7 +114,7 @@ public class GardenGUI : MonoBehaviour
 	
 	
 	
-	
+	/*
 	float NormalizeToScreen(dimension d, float ratio)
 	{
 		if (d == dimension.x)
@@ -127,4 +129,5 @@ public class GardenGUI : MonoBehaviour
 		
 		return -1f;
 	}
+	*/
 }
