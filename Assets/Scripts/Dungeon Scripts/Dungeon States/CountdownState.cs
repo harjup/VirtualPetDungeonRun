@@ -8,7 +8,7 @@ public class CountdownState : MonoBehaviour, IState
 	
 	private bool isInit = true;
 	private float countdownTimer;			//Timer counting down to start of game
-	private float countdownTimerMax = 5f;
+	private float countdownTimerMax = 1f;
 	
 	private int currentSecond;				//The current second on the countdown
 	private int secondLastFrame = 0;		//The second from last frame

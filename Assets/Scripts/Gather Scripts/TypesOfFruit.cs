@@ -24,16 +24,16 @@ public static class TypesOfFruit
 	//Associates each fruit type with a set of properties
 	static Dictionary<fruits, Fruit> fruitTypes = new Dictionary<fruits, Fruit>()
 	{
-		{fruits.StrongFruit, 	new Fruit("StrongFruit", Stat.type.power, 10, 10f, 10)},
-		{fruits.StrongerFruit, 	new Fruit("StrongerFruit", Stat.type.power, 20, 10f, 15)},	
-		{fruits.SpeedFruit, 	new Fruit("SpeedFruit", Stat.type.speed, 10, 20f, 10)},
-		{fruits.SpeedyFruit, 	new Fruit("SpeedyFruit", Stat.type.speed, 20, 20f, 15)}
+		{fruits.StrongFruit, 	new Fruit("StrongFruit", Stat.type.power, 10, 1f, 10)},
+		{fruits.StrongerFruit, 	new Fruit("StrongerFruit", Stat.type.power, 20, 1f, 15)},	
+		{fruits.SpeedFruit, 	new Fruit("SpeedFruit", Stat.type.speed, 10, 2f, 10)},
+		{fruits.SpeedyFruit, 	new Fruit("SpeedyFruit", Stat.type.speed, 20, 2f, 15)}
 	};
 	
 	//Returns a fruit of the given type
 	public static Fruit GetFruit(fruits f)
 	{
-		return fruitTypes[f].GetClone();
+		return fruitTypes[f];
 	}
 	
 	
@@ -43,7 +43,7 @@ public static class TypesOfFruit
 	{
 		System.Array a = System.Enum.GetValues(typeof(fruits));
 		
-		return fruitTypes[(fruits)a.GetValue(Random.Range(0,a.Length))].GetClone();
+		return fruitTypes[(fruits)a.GetValue(Random.Range(0,a.Length))];
 	}
 	
 	

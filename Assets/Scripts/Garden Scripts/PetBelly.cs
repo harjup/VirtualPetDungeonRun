@@ -18,7 +18,7 @@ public class PetBelly : MonoBehaviour
 			return false;
 		}
 		
-		fruitList.Add(f);
+		fruitList.Add(f.GetClone());
 		
 		return true;
 	}
@@ -42,7 +42,10 @@ public class PetBelly : MonoBehaviour
 	
 	public Fruit GetLastFruitEaten()
 	{
-		return fruitList[fruitList.Count - 1];
+        if (fruitList.Count > 0)
+            return fruitList[fruitList.Count - 1];
+
+	    return null;
 	}
 
 	

@@ -55,8 +55,11 @@ public class Pet : MonoBehaviour, IPet
 	
 	public bool DrainEnergy(float amount)
 	{
-		Fruit currentFruit = petBelly.GetLastFruitEaten();
-		
+		Fruit currentFruit = petBelly. GetLastFruitEaten();
+
+	    if (currentFruit == null)
+	        return false;
+
 		//Debug to check energy level
 		myEnergy = currentFruit.getEnergy();
 		
@@ -79,7 +82,8 @@ public class Pet : MonoBehaviour, IPet
 	
 	public void AddEnergy(int amount)
 	{
-		myEnergy += amount;	
+	    petBelly.EatFruit((new Fruit("Candy", Stat.type.speed, 0, 1f, 0)));
+        Debug.Log("eating candy");
 	}
 	
 	//Takes in a gameobject so I have the option to check if the object has moved, and have the pet change course to compensate
@@ -92,9 +96,21 @@ public class Pet : MonoBehaviour, IPet
 		Debug.Log("Moving pet to " + target.name + " at speed " + speed.ToString() + " at postition " + target.transform.position.ToString());
 	}
 	
+    //Currently isn't called by anything
 	public void StopMoving()
 	{
-		iTween.Stop(myPetObject);
+		iTween.Stop(myPetObject); 
 	}
-	
+
+    public void PauseMoving()
+    {
+        iTween.Pause(myPetObject);
+        
+    }
+
+    public void ResumeMoving()
+    {
+        iTween.Resume(myPetObject);
+    }
+
 }

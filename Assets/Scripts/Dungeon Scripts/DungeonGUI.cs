@@ -29,8 +29,6 @@ public class DungeonGUI : MonoBehaviour
 			
 			for (int i = 0; i < fruitsInUse.Length; i++) 
 			{
-				int j = (fruitsInUse.Length - 1) - i;
-				
 				//for every 1 energy the the current fruit holds, make the fruit's texture the correct ratio of pixels longer
 				float maxLength = screenRatio * fruitsInUse[i].getEnergyMax();
 				float length = screenRatio * fruitsInUse[i].getEnergy();
@@ -47,8 +45,62 @@ public class DungeonGUI : MonoBehaviour
 				originPoint = new Vector2(originPoint.x + maxLength, originPoint.y);
 				
 			}		
-		} 
+		}
+
+
+	    if (_drawStayOrLeaveButtons)
+	    {
+	        DrawStayOrLeaveButtons();
+	    }
+	    else
+	    {
+	        _useCandyButtonPressed = false;
+	        _leaveButtonPressed = false;
+	    }
 	}
-	
-	
+
+
+    private bool _useCandyButtonPressed;
+    private bool _leaveButtonPressed;
+
+    private bool _drawStayOrLeaveButtons;
+
+    private void DrawStayOrLeaveButtons()
+    {
+        var candyRect = new Rect(
+                    GUITools.NormalizeToScreen(GUITools.dimension.x, .4f),
+                    GUITools.NormalizeToScreen(GUITools.dimension.y, .4f),
+                    GUITools.NormalizeToScreen(GUITools.dimension.x, .1f),
+                    GUITools.NormalizeToScreen(GUITools.dimension.y, .1f)
+            );
+
+        var leaveRect = new Rect(
+                    GUITools.NormalizeToScreen(GUITools.dimension.x, .5f),
+                    GUITools.NormalizeToScreen(GUITools.dimension.y, .4f),
+                    GUITools.NormalizeToScreen(GUITools.dimension.x, .1f),
+                    GUITools.NormalizeToScreen(GUITools.dimension.y, .1f)
+            );
+
+
+        _useCandyButtonPressed = GUI.Button(candyRect, "UseCandy");
+
+        _leaveButtonPressed = GUI.Button(leaveRect, "Leave");
+    }
+
+
+    public void SetOutofEnergyButtons(bool value)
+    {
+        _drawStayOrLeaveButtons = value;
+    }
+
+    public bool GetCandyButtonState()
+    {
+        return _useCandyButtonPressed;
+    }
+
+    public bool GetLeaveButtonState()
+    {
+        return _leaveButtonPressed;
+    }
+
 }

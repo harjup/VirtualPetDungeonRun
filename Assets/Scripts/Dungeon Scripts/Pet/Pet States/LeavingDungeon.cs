@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LeavingDungeon : PetState 
 {
-	private const string stateName = "Out of Energy";
+	private const string stateName = "Leaving Dungeon";
 	
 	public override string GetName()
 	{

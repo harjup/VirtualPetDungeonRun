@@ -7,9 +7,7 @@ public class Blockade : Objective
 	int health = 10;
 	
 	float energyCost = 1f;
-	
-	//IPetCombat myPetCombat;
-	
+
 	public GameObject petPosition;
 	
 	bool waitingForPet = false;

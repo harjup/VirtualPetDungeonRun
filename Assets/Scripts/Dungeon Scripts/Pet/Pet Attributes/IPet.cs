@@ -22,4 +22,6 @@ public interface IPet
 	
 	void MoveToPosition(GameObject target, float speed);
 	void StopMoving();
+    void PauseMoving();
+    void ResumeMoving();
 }

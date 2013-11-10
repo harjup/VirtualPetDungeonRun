@@ -19,6 +19,7 @@ public class Chest : Objective
 	{
 		if (waitingForPet)
 		{
+			//When the pet has finished moving, set waiting for pet to false
 			waitingForPet = !myPetCombat.isFinishedMoving();
 		}
 		else

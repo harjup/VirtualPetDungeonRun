@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
 	}
 	
 	public void AddFruit(Fruit fruit)
-	{
+	{	
 		if (myFruits.ContainsKey(fruit))
 		{
 			myFruits[fruit]++;	
