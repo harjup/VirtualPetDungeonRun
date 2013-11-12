@@ -89,7 +89,7 @@ public class Pet : MonoBehaviour, IPet
 	//Takes in a gameobject so I have the option to check if the object has moved, and have the pet change course to compensate
 	public void MoveToPosition(GameObject target, float speed)
 	{
-		iTween.Stop(myPetObject);
+        //iTween.Stop(myPetObject);
 		
 		iTween.MoveTo(myPetObject, iTween.Hash("position", target.transform.position, "speed", speed * 2f, "easetype", iTween.EaseType.linear));
 		
